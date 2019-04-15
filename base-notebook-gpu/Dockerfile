@@ -146,6 +146,7 @@ COPY start-notebook.sh /usr/local/bin/
 COPY start-singleuser.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /etc/jupyter/
 RUN fix-permissions /etc/jupyter/
+RUN fix-permissions /home
 
 # Switch back to cavallone to avoid accidental container runs as root
 USER $NB_UID
