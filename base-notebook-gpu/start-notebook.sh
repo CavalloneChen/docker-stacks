@@ -8,7 +8,9 @@ if [[ ! -z "${JUPYTERHUB_API_TOKEN}" ]]; then
   # launched by JupyterHub, use single-user entrypoint
   exec /usr/local/bin/start-singleuser.sh "$@"
 elif [[ ! -z "${JUPYTER_ENABLE_LAB}" ]]; then
-  . /usr/local/bin/start.sh jupyter lab "$@"
+  . /usr/local/bin/start.sh jupyter lab & "$@"
+  . /usr/local/bin/start.sh code-server "$@"
+  fg %1
 else
   . /usr/local/bin/start.sh jupyter notebook "$@"
 fi

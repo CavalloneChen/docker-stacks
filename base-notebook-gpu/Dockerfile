@@ -4,11 +4,11 @@
 # Ubuntu 18.04 (bionic) from 2018-05-26
 # https://github.com/docker-library/official-images/commit/aac6a45b9eb2bffb8102353c350d341a410fb169
 #ARG BASE_CONTAINER=ubuntu:bionic-20180526@sha256:c8c275751219dadad8fa56b3ac41ca6cb22219ff117ca98fe82b42f24e1ba64e
-ARG BASE_CONTAINER=nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
+ARG BASE_CONTAINER=nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 FROM $BASE_CONTAINER
 
-LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER="jovyan"
+LABEL maintainer="Cavallone"
+ARG NB_USER="cavallone"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
@@ -19,13 +19,42 @@ USER root
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -yq dist-upgrade \
  && apt-get install -yq --no-install-recommends \
+    libxkbfile-dev \
+    libsecret-1-dev \
+    openssl \
+    net-tools \
+    git \
+    software-properties-common \
     wget \
-    bzip2 \
+    curl \
     ca-certificates \
     sudo \
     locales \
-    fonts-liberation \
+    build-essential \
+    libsm6 \
+    libxext-dev \
+    libxrender1 \
  && rm -rf /var/lib/apt/lists/*
+RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - \
+    && apt-get update \
+ 	&& apt-get install -yq --no-install-recommends \
+	nodejs\
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN wget https://github.com/codercom/code-server/releases/download/1.604-vsc1.32.0/code-server1.604-vsc1.32.0-linux-x64.tar.gz &&\
+	tar -xvzf code-server1.604-vsc1.32.0-linux-x64.tar.gz &&\
+	cd code-server1.604-vsc1.32.0-linux-x64 &&\
+	mv ./code-server /usr/local/bin/code-server &&\
+	cd .. && rm -rf code-server1.604-vsc1.32.0-linux-x64 &&\
+	rm code-server1.604-vsc1.32.0-linux-x64.tar.gz
+
+RUN npm install -g yarn &&\
+    npm cache clean --force
+
+# RUN add-apt-repository ppa:fish-shell/release-3 && apt-get update && \
+#     apt-get install -yq --no-install-recommends\
+#     fish \
+# && rm -rf /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
@@ -43,11 +72,10 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
     HOME=/home/$NB_USER
 
 ADD fix-permissions /usr/local/bin/fix-permissions
-# Create jovyan user with UID=1000 and in the 'users' group
+# Create cavallone user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN groupadd wheel -g 11 && \
-    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
-    useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+RUN adduser --gecos '' --disabled-password --uid $NB_UID --gid $NB_GID cavallone && \
+    echo "cavallone ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd && \
@@ -57,14 +85,12 @@ RUN groupadd wheel -g 11 && \
 USER $NB_UID
 
 # Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work && \
-    fix-permissions /home/$NB_USER
+RUN fix-permissions /home/$NB_USER
 
-# Install conda as jovyan and check the md5 sum provided on the download site
-ENV MINICONDA_VERSION 4.5.11
+# Install conda as cavallone and check the md5 sum provided on the download site
+ENV MINICONDA_VERSION 4.5.12
 RUN cd /tmp && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    echo "e1045ee415162f944b6aebfe560b8fee *Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" | md5sum -c - && \
     /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
@@ -72,15 +98,15 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
     $CONDA_DIR/bin/conda install --quiet --yes conda="${MINICONDA_VERSION%.*}.*" && \
     $CONDA_DIR/bin/conda update --all --quiet --yes && \
-    conda clean -tipsy && \
+    conda clean --all && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
 # Install Tini
-RUN conda install --quiet --yes 'tini=0.18.0' && \
+RUN conda install --yes 'tini=0.18.0' && \
     conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \
-    conda clean -tipsy && \
+    conda clean --all && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
@@ -90,13 +116,15 @@ RUN conda install --quiet --yes 'tini=0.18.0' && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes \
+RUN conda install --quiet --yes\
+    'tornado=5.1.1' \
     'notebook=5.7.2' \
-    'jupyterhub=0.9.4' \
     'jupyterlab=0.35.4' && \
-    conda clean -tipsy && \
-    jupyter labextension install @jupyterlab/hub-extension@^0.12.0 && \
-    npm cache clean --force && \
+   #  conda install --yes -c pytorch\
+   #  'pytorch' \
+   #  'torchvision' \
+   #  'cudatoolkit=9.0' &&\
+    conda clean --all && \
     jupyter notebook --generate-config && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
@@ -105,7 +133,7 @@ RUN conda install --quiet --yes \
 
 USER root
 
-EXPOSE 8888
+EXPOSE 8888 8443
 WORKDIR $HOME
 
 # Configure container startup
@@ -119,5 +147,5 @@ COPY start-singleuser.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /etc/jupyter/
 RUN fix-permissions /etc/jupyter/
 
-# Switch back to jovyan to avoid accidental container runs as root
+# Switch back to cavallone to avoid accidental container runs as root
 USER $NB_UID
