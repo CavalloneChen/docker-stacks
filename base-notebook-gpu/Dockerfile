@@ -74,8 +74,9 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
 ADD fix-permissions /usr/local/bin/fix-permissions
 # Create cavallone user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN adduser --gecos '' --disabled-password --uid $NB_UID --gid $NB_GID cavallone && \
-    echo "cavallone ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd && \
+RUN groupadd wheel -g 11 && \
+    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
+    useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd && \
