@@ -123,6 +123,7 @@ RUN conda install --yes 'tini=0.18.0' && \
 RUN conda install --quiet --yes\
     'pandas' \
     'tqdm' \
+    'matplotlib' \
     'tornado=5.1.1' \
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
