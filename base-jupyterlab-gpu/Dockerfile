@@ -41,7 +41,7 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - \
 	nodejs\
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV CODE_SERVER_VER 1.792-vsc1.33.1
+ENV CODE_SERVER_VER 1.696-vsc1.33.0
 RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
