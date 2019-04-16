@@ -121,6 +121,8 @@ RUN conda install --yes 'tini=0.18.0' && \
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 RUN conda install --quiet --yes\
+    'pandas' \
+    'tqdm' \
     'tornado=5.1.1' \
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
