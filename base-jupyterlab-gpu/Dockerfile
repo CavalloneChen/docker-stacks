@@ -41,12 +41,13 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - \
 	nodejs\
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/codercom/code-server/releases/download/1.604-vsc1.32.0/code-server1.604-vsc1.32.0-linux-x64.tar.gz &&\
-	tar -xvzf code-server1.604-vsc1.32.0-linux-x64.tar.gz &&\
-	cd code-server1.604-vsc1.32.0-linux-x64 &&\
+ENV CODE_SERVER_VER 1.792-vsc1.33.1
+RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
-	cd .. && rm -rf code-server1.604-vsc1.32.0-linux-x64 &&\
-	rm code-server1.604-vsc1.32.0-linux-x64.tar.gz
+	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
+	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
 
 RUN npm install -g yarn &&\
     npm cache clean --force
@@ -77,9 +78,11 @@ ADD fix-permissions /usr/local/bin/fix-permissions
 RUN groupadd wheel -g 11 && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    echo "cavallone:h6626068" | chpasswd &&\
     mkdir -p $CONDA_DIR && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd && \
+    adduser $NB_USER sudo && \
     fix-permissions $HOME && \
     fix-permissions "$(dirname $CONDA_DIR)"
 
