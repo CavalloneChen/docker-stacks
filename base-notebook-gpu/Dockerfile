@@ -9,7 +9,7 @@ FROM $BASE_CONTAINER
 
 LABEL maintainer="Cavallone"
 ARG NB_USER="cavallone"
-ARG NB_UID="1000"
+ARG NB_UID="1012"
 ARG NB_GID="100"
 
 USER root
