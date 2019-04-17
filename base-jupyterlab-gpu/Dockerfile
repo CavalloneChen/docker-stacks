@@ -144,6 +144,7 @@ RUN conda install --quiet --yes\
     black && \
     jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
     jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+    jupyter serverextension enable --py jupyterlab_code_formatter &&\
     npm cache clean --force && \
     jupyter notebook --generate-config && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
