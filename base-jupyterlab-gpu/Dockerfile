@@ -35,13 +35,20 @@ RUN apt-get update && apt-get -yq dist-upgrade \
     libxext-dev \
     libxrender1 \
  && rm -rf /var/lib/apt/lists/*
+
+RUN apt-add-repository ppa:fish-shell/release-3 &&\
+    apt-get update && apt-get -yq dist-upgrade \
+ && apt-get install -yq --no-install-recommends \
+    fish \
+    && rm -rf /var/lib/apt/lists/*
+    
 RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - \
     && apt-get update \
  	&& apt-get install -yq --no-install-recommends \
 	nodejs\
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV CODE_SERVER_VER 1.792-vsc1.33.1
+ENV CODE_SERVER_VER 1.696-vsc1.33.0
 RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
@@ -127,11 +134,17 @@ RUN conda install --quiet --yes\
     'tornado=5.1.1' \
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
-   #  conda install --yes -c pytorch\
-   #  'pytorch' \
-   #  'torchvision' \
-   #  'cudatoolkit=9.0' &&\
+    conda install --yes -c pytorch\
+    'pytorch' \
+    'torchvision' \
+    'cudatoolkit=9.0' &&\
     conda clean --all && \
+    pip install --no-cache-dir \
+    jupyterlab_code_formatter \
+    black && \
+    jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
+    jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+    npm cache clean --force && \
     jupyter notebook --generate-config && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
