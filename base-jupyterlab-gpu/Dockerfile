@@ -48,14 +48,6 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - \
 	nodejs\
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV CODE_SERVER_VER 1.696-vsc1.33.0
-RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
-	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
-	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
-	mv ./code-server /usr/local/bin/code-server &&\
-	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
-	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
-
 RUN npm install -g yarn &&\
     npm cache clean --force
 
@@ -151,6 +143,14 @@ RUN conda install --quiet --yes\
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+ENV CODE_SERVER_VER 1.868-vsc1.33.1
+RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
+	mv ./code-server /usr/local/bin/code-server &&\
+	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
+	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
 
 USER root
 
