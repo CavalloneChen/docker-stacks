@@ -126,10 +126,10 @@ RUN conda install --quiet --yes\
     'tornado=5.1.1' \
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
-    conda install --yes -c pytorch\
-    # 'pytorch' \ wait for a fix of connection
-    'torchvision' \
-    'cudatoolkit=9.0' &&\
+   #  conda install --yes -c pytorch\
+   # #  # 'pytorch' \ wait for a fix of connection
+   # #  'torchvision' \
+   # #  'cudatoolkit=9.0' &&\
     conda clean --all && \
     pip install --no-cache-dir \
     jupyterlab_code_formatter \
