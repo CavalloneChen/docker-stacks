@@ -144,7 +144,7 @@ RUN conda install --quiet --yes\
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV CODE_SERVER_VER 1.868-vsc1.33.1
+ENV CODE_SERVER_VER 1.792-vsc1.33.1
 RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
