@@ -114,7 +114,7 @@ RUN conda install --yes 'tini=0.18.0' && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes\
+RUN conda install --yes\
     'pandas' \
     'tqdm' \
     'matplotlib' \
@@ -125,12 +125,16 @@ RUN conda install --quiet --yes\
    # #  # 'pytorch' \ wait for a fix of connection
    # #  'torchvision' \
    # #  'cudatoolkit=9.0' &&\
+    conda install --yes -c conda-forge\
+    ipywidgets && \
     conda clean --all && \
     pip install --no-cache-dir \
     jupyterlab_code_formatter \
-    black && \
+    black \
+    ipykernel&& \
     jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
     jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     jupyter serverextension enable --py jupyterlab_code_formatter &&\
     npm cache clean --force && \
     jupyter notebook --generate-config && \
