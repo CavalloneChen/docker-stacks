@@ -127,7 +127,7 @@ RUN conda install --quiet --yes\
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
     conda install --yes -c pytorch\
-    'pytorch' \
+    # 'pytorch' \ wait for a fix of connection
     'torchvision' \
     'cudatoolkit=9.0' &&\
     conda clean --all && \
