@@ -85,6 +85,7 @@ RUN groupadd wheel -g 11 && \
     fix-permissions $HOME && \
     fix-permissions "$(dirname $CONDA_DIR)"
 
+USER $NB_UID
 # Install conda as cavallone and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.5.12
 RUN cd /tmp && \
@@ -149,7 +150,9 @@ RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
 	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
-	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
+	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz && \
+   fix-permissions /home/$NB_UID/code-server${CODE_SERVER_VER}-linux-x64 && \
+   fix-permissions /home/$NB_UID
 
 USER root
 
