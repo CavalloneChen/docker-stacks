@@ -1,4 +1,4 @@
-version: "3.2"
+version: "2"
 services:
   python-env:
     build: ./python-env-pytorch
@@ -6,14 +6,12 @@ services:
     container_name: cmy-python-env-docker
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
-    runtime: nvidia
+    runtime: nvidia # this is only supported in v2 not v3
     volumes:
       - type: bind
         source: /workspace/cmy
         target: /home/cmy
     working_dir: /home/cmy
     ports:
-      - target: 8888
-        published: 10000
-        protocol: tcp
-        mode: host
+      - "10000:8888"
+      - "10001:8443"
