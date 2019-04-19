@@ -89,7 +89,7 @@ USER $NB_UID
 # Install conda as cavallone and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION 4.5.12
 RUN cd /tmp && \
-    aria2c -o https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    aria2c "https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" && \
     /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
@@ -147,7 +147,7 @@ RUN conda install --yes\
 USER root
 
 ENV CODE_SERVER_VER 1.868-vsc1.33.1
-RUN aria2c -o https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+RUN aria2c https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
