@@ -25,7 +25,7 @@ RUN apt-get update && apt-get -yq dist-upgrade \
     net-tools \
     git \
     software-properties-common \
-    wget \
+    aria2 \
     curl \
     ca-certificates \
     sudo \
@@ -147,7 +147,7 @@ RUN conda install --yes\
 USER root
 
 ENV CODE_SERVER_VER 1.868-vsc1.33.1
-RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
+RUN aria2c -o https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
