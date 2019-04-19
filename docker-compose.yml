@@ -1,0 +1,19 @@
+version: "1"
+services:
+  python-env:
+    build: ./python-env-pytorch
+    image: cmy-python-env:pytorch
+    container_name: cmy-python-env-docker
+    enviroment:
+      JUPYTER_ENABLE_LAB: 'yes'
+    runtime: nvidia
+    volumes:
+      - type: bind
+        source: /workspace/cmy
+        target: /home/cmy
+    working_dir: /home/cmy
+    ports:
+      - target: 8888
+        published: 10000
+        protocol: tcp
+        mode: host
