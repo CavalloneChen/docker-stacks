@@ -118,13 +118,12 @@ RUN conda install --yes 'tini=0.18.0' && \
 RUN conda install --yes\
     'pandas' \
     'tqdm' \
-    'matplotlib' \
-    'tornado=5.1.1' \
-    'notebook=5.7.2' \
-    'jupyterlab=0.35.4' && \
+    'matplotlib' &&\
+    conda install -c conda-forge \
+    'jupyterlab' && \
     conda install --yes -c pytorch\
-    # 'pytorch' \ wait for a fix of connection
-    # 'torchvision' \
+    'pytorch' \ 
+    'torchvision' \
     'cudatoolkit=9.0' &&\
     conda install --yes -c conda-forge\
     ipywidgets && \
