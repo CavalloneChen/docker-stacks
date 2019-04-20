@@ -122,10 +122,10 @@ RUN conda install --yes\
     'tornado=5.1.1' \
     'notebook=5.7.2' \
     'jupyterlab=0.35.4' && \
-   #  conda install --yes -c pytorch\
-   # #  # 'pytorch' \ wait for a fix of connection
-   # #  'torchvision' \
-   # #  'cudatoolkit=9.0' &&\
+    conda install --yes -c pytorch\
+    # 'pytorch' \ wait for a fix of connection
+    # 'torchvision' \
+    'cudatoolkit=9.0' &&\
     conda install --yes -c conda-forge\
     ipywidgets && \
     conda clean --all && \
@@ -146,15 +146,15 @@ RUN conda install --yes\
 
 USER root
 
-ENV CODE_SERVER_VER 1.868-vsc1.33.1
+ENV CODE_SERVER_VER 1.903-vsc1.33.1
 RUN aria2c https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
 	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
 	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz && \
-   fix-permissions /home/$NB_UID/code-server${CODE_SERVER_VER}-linux-x64 && \
-   fix-permissions /home/$NB_UID
+   fix-permissions /home/$NB_USER/code-server${CODE_SERVER_VER}-linux-x64 && \
+   fix-permissions /home/$NB_USER
 
 EXPOSE 8888 8443
 WORKDIR $HOME
