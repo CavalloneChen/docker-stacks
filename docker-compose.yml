@@ -3,7 +3,6 @@ services:
   python-env:
     build: ./python-env-pytorch/
     image: cmy-penv:pytorch
-    container_name: cmy-penv-docker
     hostname: penv-docker
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
