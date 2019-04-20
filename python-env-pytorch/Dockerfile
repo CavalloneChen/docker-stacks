@@ -122,8 +122,8 @@ RUN conda install --yes\
     conda install -c conda-forge \
     'jupyterlab' && \
     conda install --yes -c pytorch\
-    'pytorch' \ 
-    'torchvision' \
+   #  'pytorch' \ 
+   #  'torchvision' \
     'cudatoolkit=9.0' &&\
     conda install --yes -c conda-forge\
     ipywidgets && \
