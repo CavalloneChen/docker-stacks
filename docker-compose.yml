@@ -2,9 +2,9 @@ version: "2.3"
 services:
   python-env:
     build: ./python-env-pytorch/
-    image: cmy-python-env:pytorch
-    container_name: cmy-python-env-docker
-    hostname: python-env-docker
+    image: cmy-penv:pytorch
+    container_name: cmy-penv-docker
+    hostname: penv-docker
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
     runtime: nvidia # this is only supported in v2 not v3
