@@ -118,20 +118,18 @@ RUN conda install --yes 'tini=0.18.0' && \
 RUN conda install --yes\
     'pandas' \
     'tqdm' \
-    'matplotlib' &&\
-    conda install -c conda-forge \
-    'jupyterlab' && \
-    conda install --yes -c pytorch\
-   #  'pytorch' \ 
-   #  'torchvision' \
+    'matplotlib'\
+    'pytorch' \ 
+    'torchvision' \
     'cudatoolkit=9.0' &&\
-    conda install --yes -c conda-forge\
-    ipywidgets && \
+    conda install --yes -c conda-forge \
+    'jupyterlab' \
+    'ipywidgets' && \
     conda clean --all && \
     pip install --no-cache-dir \
-    jupyterlab_code_formatter \
-    black \
-    ipykernel&& \
+    'jupyterlab_code_formatter' \
+    'black' \
+    'ipykernel' && \
     jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
     jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
@@ -155,7 +153,7 @@ RUN aria2c https://github.com/codercom/code-server/releases/download/${CODE_SERV
    fix-permissions /home/$NB_USER/code-server${CODE_SERVER_VER}-linux-x64 && \
    fix-permissions /home/$NB_USER
 
-EXPOSE 8888 8443
+EXPOSE 8888 8443 8097 6006
 WORKDIR $HOME
 
 # Configure container startup
