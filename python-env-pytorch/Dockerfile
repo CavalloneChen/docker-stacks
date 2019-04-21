@@ -151,7 +151,7 @@ RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER
 	cd code-server${CODE_SERVER_VER}-linux-x64 &&\
 	mv ./code-server /usr/local/bin/code-server &&\
 	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
-	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz && \
+	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
 
 EXPOSE 8888 8443 8097
 WORKDIR $HOME
