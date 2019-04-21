@@ -126,7 +126,7 @@ RUN conda install --yes\
     'jupyterlab' \
     'ipywidgets' && \
     conda clean --all && \
-    pip install --no-cache-dir \
+    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
     'jupyterlab_code_formatter' \
     'black' \
     'ipykernel' && \
