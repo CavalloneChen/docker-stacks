@@ -14,9 +14,8 @@ services:
         target: /home/cmy
     working_dir: /home/cmy
     dns:
-      - 8.8.8.8
-      - 8.8.4.4
-      - 114.114.114.114
+      - 1.1.1.1
+      - 1.0.0.1
     ports:
       - "10000:8888"
       - "10001:8443"
