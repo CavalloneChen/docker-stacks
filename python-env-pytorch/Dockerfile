@@ -118,7 +118,8 @@ RUN conda install --yes 'tini=0.18.0' && \
 RUN conda install --yes\
     'pandas' \
     'tqdm' \
-    'matplotlib'\
+    'matplotlib'&& \
+    conda install --yse -c pytorch \
     'pytorch' \ 
     'torchvision' \
     'cudatoolkit=9.0' &&\
@@ -127,6 +128,7 @@ RUN conda install --yes\
     'ipywidgets' && \
     conda clean --all && \
     pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
+    'visdom' \
     'jupyterlab_code_formatter' \
     'black' \
     'ipykernel' && \
@@ -151,7 +153,7 @@ RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER
 	cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
 	rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz && \
 
-EXPOSE 8888 8443 8097 6006
+EXPOSE 8888 8443 8097
 WORKDIR $HOME
 
 # Configure container startup
