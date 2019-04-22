@@ -119,7 +119,7 @@ RUN conda install --yes\
     'pandas' \
     'tqdm' \
     'matplotlib'&& \
-    conda install --yse -c pytorch \
+    conda install --yes -c pytorch \
     'pytorch' \ 
     'torchvision' \
     'cudatoolkit=9.0' &&\
