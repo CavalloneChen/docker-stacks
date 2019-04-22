@@ -118,7 +118,8 @@ RUN conda install --yes 'tini=0.18.0' && \
 RUN conda install --yes\
     'pandas' \
     'tqdm' \
-    'matplotlib'&& \
+    'matplotlib'\
+    'visdom'&& \
     conda install --yes -c pytorch \
     'pytorch' \ 
     'torchvision' \
