@@ -119,7 +119,8 @@ RUN conda install --yes\
     'pandas' \
     'tqdm' \
     'matplotlib'\
-    'visdom'&& \
+    'visdom'\
+    'pylint'&& \
     conda install --yes -c pytorch \
     'pytorch' \ 
     'torchvision' \
