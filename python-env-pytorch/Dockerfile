@@ -24,6 +24,7 @@ RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
     openssl \
     net-tools \
     git \
+    tmux \
     software-properties-common \
     wget \
     curl \
@@ -101,6 +102,8 @@ RUN cd /tmp && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+RUN echo "${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
 
 # Install Tini
 RUN conda install --yes 'tini=0.18.0' && \
