@@ -118,7 +118,7 @@ RUN conda install --yes\
    'matplotlib'\
    'visdom'\
    'pylint'&& \
-   conda install --yes -c pytorch \
+   conda install --yes \
    'pytorch' \ 
    'torchvision' \
    'cudatoolkit=9.0' &&\
