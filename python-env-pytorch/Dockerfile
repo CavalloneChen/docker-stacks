@@ -136,7 +136,8 @@ RUN conda install --yes\
     'visdom' \
     'jupyterlab_code_formatter' \
     'black' \
-    'ipykernel' && \
+    'ipykernel' \
+    'pysnooper' && \
     jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
     jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
