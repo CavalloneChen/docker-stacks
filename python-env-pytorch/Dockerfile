@@ -44,9 +44,6 @@ RUN apt-add-repository ppa:fish-shell/release-3 &&\
    fish \
    && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g yarn &&\
-   npm cache clean --force
-
 # RUN add-apt-repository ppa:fish-shell/release-3 && apt-get update && \
 #     apt-get install -yq --no-install-recommends\
 #     fish \
@@ -146,6 +143,9 @@ RUN conda install --yes\
    fix-permissions /home/$NB_USER
 
 USER root
+
+RUN npm install -g yarn &&\
+   npm cache clean --force
 
 ENV CODE_SERVER_VER 1.939-vsc1.33.1
 RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
