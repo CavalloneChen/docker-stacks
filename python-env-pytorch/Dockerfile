@@ -95,7 +95,8 @@ RUN cd /tmp && \
    fix-permissions $CONDA_DIR && \
    fix-permissions /home/$NB_USER
 
-RUN echo "${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
+RUN mkdir /home/$NB_USER/.config/fish/ && \
+   echo "${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
 
 # Install Tini
 RUN conda install --yes 'tini=0.18.0' && \
