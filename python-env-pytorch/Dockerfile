@@ -95,7 +95,8 @@ RUN cd /tmp && \
    fix-permissions $CONDA_DIR && \
    fix-permissions /home/$NB_USER
 
-RUN mkdir /home/$NB_USER/.config/fish/ && \
+RUN mkdir /home/$NB_USER/.config/ && \
+   mkdir /home/$NB_USER/.config/fish/ && \
    echo "${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
 
 # Install Tini
