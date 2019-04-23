@@ -17,6 +17,7 @@ USER root
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
+COPY ./sources.list /etc/apt/
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
  && apt-get install -yq --no-install-recommends \
     libxkbfile-dev \
@@ -167,7 +168,6 @@ ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
-COPY ./sources.list /etc/apt/
 COPY start.sh /usr/local/bin/
 COPY start-notebook.sh /usr/local/bin/
 COPY start-singleuser.sh /usr/local/bin/
