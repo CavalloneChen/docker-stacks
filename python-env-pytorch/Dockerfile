@@ -97,7 +97,7 @@ RUN cd /tmp && \
 
 RUN mkdir /home/$NB_USER/.config/ && \
    mkdir /home/$NB_USER/.config/fish/ && \
-   echo "${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
+   echo "source ${CONDA_DIR}/etc/fish/conf.d/conda.fish" >> ${HOME}/.config/fish/config.fish
 
 # Install Tini
 RUN conda install --yes 'tini=0.18.0' && \
