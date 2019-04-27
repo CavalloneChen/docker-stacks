@@ -130,7 +130,8 @@ RUN conda install --yes\
    'ipywidgets' && \
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
-   'visdom' \
+   'tensorflow' \
+   'tensorboardX' \
    'jupyterlab_code_formatter' \
    'black' \
    'ipykernel' \
@@ -161,7 +162,7 @@ RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER
    cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
    rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
 
-EXPOSE 8888 8443 8097
+EXPOSE 8888 8443 6006
 WORKDIR $HOME
 
 # Configure container startup
