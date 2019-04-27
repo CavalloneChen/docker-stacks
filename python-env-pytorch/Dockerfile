@@ -122,6 +122,8 @@ RUN conda install --yes\
    'pytorch' \ 
    'torchvision' \
    'cudatoolkit=9.0' &&\
+   conda install -c fastai \
+   fastai && \
    conda install --yes -c conda-forge \
    'nodejs' \
    'jupyterlab' \
