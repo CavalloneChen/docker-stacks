@@ -18,5 +18,9 @@
             "wordWrapColumn": 120,
             "lineNumbers": true
           }
+    },
+
+    "@jupyterlab/github:drive":{
+        "defaultRepo": "cavallonechen/Github-Reading"
     }
 }
