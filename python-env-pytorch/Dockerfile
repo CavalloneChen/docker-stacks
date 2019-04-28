@@ -120,13 +120,13 @@ RUN conda install --yes\
    'pylint' \
    'pytorch' \ 
    'torchvision' \
-   'cudatoolkit=9.0' &&\
-   conda install -c fastai \
-   fastai && \
-   conda install --yes -c conda-forge \
+   'cudatoolkit=9.0' \
+   'scikit-learn' \
    'nodejs' \
    'jupyterlab' \
-   'ipywidgets' && \
+   'ipywidgets' &&\
+   conda install -c fastai \
+   fastai && \
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
    'tensorflow' \
