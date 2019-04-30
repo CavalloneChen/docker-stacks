@@ -1,7 +1,9 @@
 version: "2.3"
 services:
   python-env:
-    build: ./python-env-pytorch/
+    build: 
+      context: ./python-env-pytorch/
+      shm_size: '8gb'
     image: cmy-penv:pytorch
     container_name: cmy-penv-docker
     hostname: penv-docker

@@ -116,7 +116,6 @@ RUN conda install --yes\
    'pandas' \
    'tqdm' \
    'matplotlib'\
-   'visdom'\
    'pylint' \
    'pytorch' \ 
    'torchvision' \
@@ -135,13 +134,12 @@ RUN conda install --yes\
    'black' \
    'ipykernel' \
    'pysnooper' \
-   'jupyterlab_github' && \
+   'stackprinter' && \
    jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
    jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
    jupyter labextension install @jupyterlab/github && \
    jupyter serverextension enable --py jupyterlab_code_formatter && \
-   jupyter serverextension enable --sys-prefix jupyterlab_github && \
    npm cache clean --force && \
    jupyter notebook --generate-config && \
    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
