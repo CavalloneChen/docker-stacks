@@ -18,6 +18,7 @@ USER root
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
 COPY ./sources.list /etc/apt/
+RUN rm /etc/apt/sources.list.d/cuda.list && rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
    && apt-get install -yq --no-install-recommends \
    libxkbfile-dev \
