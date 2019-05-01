@@ -3,7 +3,7 @@ services:
   python-env:
     build: 
       context: ./python-env-pytorch/
-      shm_size: '4gb'
+      shm_size: 10000000
     image: cmy-penv:pytorch
     container_name: cmy-penv-docker
     hostname: penv-docker
