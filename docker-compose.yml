@@ -1,7 +1,7 @@
 version: "2.3"
-shm_size: 8gb
 services:
   python-env:
+    shm_size: 8gb
     build: 
       context: ./python-env-pytorch/
     image: cmy-penv:pytorch
