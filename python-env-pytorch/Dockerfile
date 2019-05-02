@@ -128,7 +128,7 @@ RUN conda install --yes\
    conda install -c pytorch \
    'pytorch' \ 
    'torchvision' \
-   'cudatoolkit=9.0' \
+   'cudatoolkit=9.0' &&\
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
    'jupyterlab_code_formatter' \
