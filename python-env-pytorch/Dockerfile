@@ -113,7 +113,14 @@ RUN conda install --yes 'tini=0.18.0' && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --yes\
+RUN conda install -c pytorch  --yes\
+   'pytorch' \ 
+   'torchvision' \
+   'cudatoolkit=9.0' &&\
+   conda install -c fastai --yes \
+   'fastai' \
+   'fastprogress ' && \
+   conda install --yes\
    'pandas' \
    'tqdm' \
    'matplotlib'\
@@ -122,13 +129,6 @@ RUN conda install --yes\
    'nodejs' \
    'jupyterlab' \
    'ipywidgets' &&\
-   conda install -c fastai \
-   'fastai' \
-   'fastprogress ' && \
-   conda install -c pytorch \
-   'pytorch' \ 
-   'torchvision' \
-   'cudatoolkit=9.0' &&\
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
    'jupyterlab_code_formatter' \
