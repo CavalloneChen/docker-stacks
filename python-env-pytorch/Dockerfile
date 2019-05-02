@@ -126,7 +126,8 @@ RUN conda install --yes\
    'jupyterlab' \
    'ipywidgets' &&\
    conda install -c fastai \
-   fastai && \
+   'fastai' \
+   'fastprogress ' && \
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
    'tensorflow' \
