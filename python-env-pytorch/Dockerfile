@@ -118,9 +118,6 @@ RUN conda install --yes\
    'tqdm' \
    'matplotlib'\
    'pylint' \
-   'pytorch' \ 
-   'torchvision' \
-   'cudatoolkit=9.0' \
    'scikit-learn' \
    'nodejs' \
    'jupyterlab' \
@@ -128,15 +125,16 @@ RUN conda install --yes\
    conda install -c fastai \
    'fastai' \
    'fastprogress ' && \
+   conda install -c pytorch \
+   'pytorch' \ 
+   'torchvision' \
+   'cudatoolkit=9.0' \
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
-   'tensorflow' \
-   'tensorboardX' \
    'jupyterlab_code_formatter' \
    'black' \
    'ipykernel' \
-   'pysnooper' \
-   'stackprinter' && \
+   'pysnooper' && \
    jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
    jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
