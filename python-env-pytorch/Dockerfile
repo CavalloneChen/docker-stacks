@@ -45,11 +45,6 @@ RUN apt-add-repository ppa:fish-shell/release-3 &&\
    fish \
    && rm -rf /var/lib/apt/lists/*
 
-# RUN add-apt-repository ppa:fish-shell/release-3 && apt-get update && \
-#     apt-get install -yq --no-install-recommends\
-#     fish \
-# && rm -rf /var/lib/apt/lists/*
-
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
    locale-gen
 
@@ -132,6 +127,7 @@ RUN conda install -c pytorch  --yes\
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
    'jupyterlab_code_formatter' \
+   'jupyterlab_github' \
    'black' \
    'ipykernel' \
    'pysnooper' && \
@@ -140,6 +136,7 @@ RUN conda install -c pytorch  --yes\
    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
    jupyter labextension install @jupyterlab/github && \
    jupyter serverextension enable --py jupyterlab_code_formatter && \
+   jupyter serverextension enable --sys-prefix jupyterlab_github && \
    npm cache clean --force && \
    jupyter notebook --generate-config && \
    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
