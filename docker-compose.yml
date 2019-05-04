@@ -14,11 +14,14 @@ services:
       - type: bind
         source: /workspace/cmy
         target: /home/cmy
+      - type: bind
+        source: ~/.ssh
+        target: /home/cavallone/.ssh
     working_dir: /home/cmy
     dns:
       - 1.1.1.1
       - 1.0.0.1
     ports:
       - "10000:8888"
-      - "10001:8443"
+      - "10001:22"
       - "10002:6006"
