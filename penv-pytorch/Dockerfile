@@ -145,8 +145,8 @@ EXPOSE 8888 6006 22
 WORKDIR $HOME
 
 # Configure container startup
-COPY ./entrypoint.sh /usr/local/bin/
-RUN chmod +x /use/local/bin/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT [ "entrypoint.sh" ]
 CMD ["start-notebook.sh"]
