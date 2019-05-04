@@ -9,6 +9,7 @@ services:
     hostname: penv-docker
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
+      TZ: 'Asia/Shanghai'
     runtime: nvidia # this is only supported in v2 not v3
     volumes:
       - type: bind
