@@ -21,8 +21,6 @@ COPY ./sources.list /etc/apt/
 RUN rm /etc/apt/sources.list.d/cuda.list && rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
    && apt-get install -yq --no-install-recommends \
-   libxkbfile-dev \
-   libsecret-1-dev \
    openssl \
    net-tools \
    git \
@@ -127,16 +125,12 @@ RUN conda install -c pytorch  --yes\
    'ipywidgets' &&\
    conda clean --all && \
    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
-   'jupyterlab_code_formatter' \
    'jupyterlab_github' \
-   'black' \
    'ipykernel' \
    'pysnooper' && \
    jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
-   jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
    jupyter labextension install @jupyterlab/github && \
-   jupyter serverextension enable --py jupyterlab_code_formatter && \
    jupyter serverextension enable --sys-prefix jupyterlab_github && \
    npm cache clean --force && \
    jupyter notebook --generate-config && \
@@ -150,15 +144,7 @@ USER root
 RUN npm install -g yarn &&\
    npm cache clean --force
 
-ENV CODE_SERVER_VER 1.939-vsc1.33.1
-RUN wget https://github.com/codercom/code-server/releases/download/${CODE_SERVER_VER}/code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
-   tar -xvzf code-server${CODE_SERVER_VER}-linux-x64.tar.gz &&\
-   cd code-server${CODE_SERVER_VER}-linux-x64 &&\
-   mv ./code-server /usr/local/bin/code-server &&\
-   cd .. && rm -rf code-server${CODE_SERVER_VER}-linux-x64 &&\
-   rm code-server${CODE_SERVER_VER}-linux-x64.tar.gz
-
-EXPOSE 8888 8443 6006
+EXPOSE 8888 6006
 WORKDIR $HOME
 
 # Configure container startup
