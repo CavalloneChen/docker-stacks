@@ -145,10 +145,8 @@ EXPOSE 8888 6006 22
 WORKDIR $HOME
 
 # Configure container startup
-COPY entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT [ "entrypoint.sh" ]
+USER root
+ENTRYPOINT service ssh restart && tini -g --
 CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
