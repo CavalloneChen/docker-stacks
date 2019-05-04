@@ -12,12 +12,10 @@ services:
       TZ: "Asia/Shanghai"
     runtime: nvidia # this is only supported in v2 not v3
     volumes:
-      - type: bind
-        source: /workspace/cmy
-        target: /home/cmy
-      - type: bind
-        source: ~/.ssh
-        target: /home/cavallone/.ssh
+      - /workspace/cmy:/home/cmy
+      - ~/.ssh:/home/cavallone/.ssh
+      - /etc/localtime:/etc/localtime:ro
+
     working_dir: /home/cmy
     dns:
       - 1.1.1.1
