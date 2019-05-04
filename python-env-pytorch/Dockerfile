@@ -30,6 +30,7 @@ RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
    software-properties-common \
    wget \
    curl \
+   openssh-server \
    ca-certificates \
    sudo \
    locales \
