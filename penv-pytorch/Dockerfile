@@ -141,7 +141,9 @@ USER root
 RUN npm install -g yarn &&\
    npm cache clean --force
 
-EXPOSE 8888 6006
+RUN service ssh restart
+
+EXPOSE 8888 6006 22
 WORKDIR $HOME
 
 # Configure container startup
