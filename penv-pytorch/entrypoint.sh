@@ -1,5 +1,5 @@
-#!bin/bash
+#!/bin/bash
 set -e
 
-exec service ssh restart && \
+service ssh restart && \
 tini -g --
