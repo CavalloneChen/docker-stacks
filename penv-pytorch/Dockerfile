@@ -146,7 +146,7 @@ WORKDIR $HOME
 
 # Configure container startup
 USER root
-ENTRYPOINT service ssh restart && tini -g --
+ENTRYPOINT tini -g -- service ssh restart
 CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
