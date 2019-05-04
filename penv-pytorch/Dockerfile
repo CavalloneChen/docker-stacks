@@ -145,7 +145,7 @@ EXPOSE 8888 6006 22
 WORKDIR $HOME
 
 # Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
+ENTRYPOINT service ssh restart && tini -g --
 CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
