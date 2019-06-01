@@ -1,21 +1,19 @@
 version: "2.3"
 services:
   python-env:
-    shm_size: 8gb
+    shm_size: 4gb
     build: 
-      context: ./penv-pytorch/
-    image: cmy-penv:pytorch
-    container_name: cmy-penv-docker
+      context: ../penv-pytorch-cpu/
+    image: cava-penv:pytorch-cpu
+    container_name: cava-penv-docker
     hostname: penv-docker
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
     runtime: nvidia # this is only supported in v2 not v3
     volumes:
-      - /workspace/cmy:/home/cmy
-      - ~/.ssh:/home/cavallone/.ssh
-      - /etc/localtime:/etc/localtime:ro
+      - /Users/cavallone/Desktop:/home/workspace
 
-    working_dir: /home/cmy
+    working_dir: /home/worspace
     dns:
       - 1.1.1.1
       - 1.0.0.1

@@ -1,0 +1,25 @@
+version: "2.3"
+services:
+  python-env:
+    shm_size: 8gb
+    build: 
+      context: ../penv-pytorch-gpu/
+    image: cmy-penv:pytorch
+    container_name: cmy-penv-docker
+    hostname: penv-docker
+    environment:
+      JUPYTER_ENABLE_LAB: 'yes'
+    runtime: nvidia # this is only supported in v2 not v3
+    volumes:
+      - /workspace/cmy:/home/cmy
+      - ~/.ssh:/home/cavallone/.ssh
+      - /etc/localtime:/etc/localtime:ro
+
+    working_dir: /home/cmy
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    ports:
+      - "10000:22" # ssh
+      - "10001:8888" # jupyterlab
+      - "10002:6006" # tensorboard
