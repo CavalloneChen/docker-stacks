@@ -20,7 +20,7 @@ RUN chmod -R 0644 /etc/apt/sources.list
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
    && apt-get install -yq --no-install-recommends \
    openssl \
-   net-tools \
+   # net-tools \
    git \
    tmux \
    software-properties-common \
@@ -105,41 +105,16 @@ RUN conda install --yes 'tini=0.18.0' && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install -c pytorch  --yes\
-   'pytorch-cpu' \ 
-   'torchvision-cpu' &&\
-   conda install -c fastai --yes \
-   'fastai' \
-   'fastprogress ' && \
-   conda install --yes\
-   'pandas' \
-   'tqdm' \
-   'matplotlib'\
-   'pylint' \
-   'scikit-learn' \
-   'nodejs' \
-   'jupyterlab' \
-   'ipywidgets' &&\
+RUN conda install --yes\
+   'jupyterlab' &&\
    conda clean --all && \
-   pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir \
-   'jupyterlab_github' \
-   'ipykernel' \
-   'pysnooper' && \
-   jupyter labextension install @oriolmirosa/jupyterlab_materialdarker && \
-   jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-   jupyter labextension install @jupyterlab/github && \
-   jupyter serverextension enable --sys-prefix jupyterlab_github && \
-   npm cache clean --force && \
+
    jupyter notebook --generate-config && \
-   rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-   rm -rf /home/$NB_USER/.cache/yarn && \
+
    fix-permissions $CONDA_DIR && \
    fix-permissions /home/$NB_USER
 
 USER root
-
-RUN npm install -g yarn &&\
-   npm cache clean --force
 
 EXPOSE 8888 6006 22
 WORKDIR $HOME

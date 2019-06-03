@@ -1,7 +1,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-ARG BASE_CONTAINER=ubuntu:bionic
+ARG BASE_CONTAINER=nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Cavallone"
@@ -14,9 +14,8 @@ USER root
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -yq --no-install-recommends ca-certificates
 COPY ./sources.list /etc/apt/
-RUN chmod -R 0644 /etc/apt/sources.list
+RUN rm /etc/apt/sources.list.d/cuda.list && rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
    && apt-get install -yq --no-install-recommends \
    openssl \
@@ -106,8 +105,9 @@ RUN conda install --yes 'tini=0.18.0' && \
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 RUN conda install -c pytorch  --yes\
-   'pytorch-cpu' \ 
-   'torchvision-cpu' &&\
+   'pytorch' \ 
+   'torchvision' \
+   'cudatoolkit=9.0' &&\
    conda install -c fastai --yes \
    'fastai' \
    'fastprogress ' && \
