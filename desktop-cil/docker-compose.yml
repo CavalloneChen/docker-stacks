@@ -11,7 +11,7 @@ services:
       JUPYTER_ENABLE_LAB: 'yes'
     runtime: nvidia # this is only supported in v2 not v3
     volumes:
-      - /home/cavallone/workspace:/home/workspace
+      - ~/workspace:/home/workspace
       - ~/.ssh:~/.ssh
       - /etc/localtime:/etc/localtime:ro
 
