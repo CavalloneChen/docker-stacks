@@ -12,7 +12,7 @@ services:
     runtime: nvidia # this is only supported in v2 not v3
     volumes:
       - /home/cavallone/workspace:/home/workspace
-      - ~/.ssh:/home/cavallone/.ssh
+      - ~/.ssh:~/.ssh
       - /etc/localtime:/etc/localtime:ro
 
     working_dir: /home/workspace
