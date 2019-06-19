@@ -9,7 +9,7 @@ ARG NB_USER="cavallone"
 
 USER root
 
-RUN useradd -m ${NB_USER} && echo "h6626068" | chpasswd && adduser ${NB_USER} sudo
+RUN useradd -m ${NB_USER} && echo ${NB_USER}:h6626068 | chpasswd && adduser ${NB_USER} sudo
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
