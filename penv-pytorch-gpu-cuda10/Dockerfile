@@ -11,7 +11,7 @@ USER root
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
-ENV DEBIAN_FRONTEND noninteractive
+# ENV DEBIAN_FRONTEND noninteractive
 COPY ./sources.list /etc/apt/
 RUN rm /etc/apt/sources.list.d/cuda.list && rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get clean && apt-get update && apt-get -yq dist-upgrade \
@@ -52,19 +52,10 @@ ENV CONDA_DIR=/opt/conda \
 ENV PATH=$CONDA_DIR/bin:$PATH \
    HOME=/home/$NB_USER
 
-ADD fix-permissions /usr/local/bin/fix-permissions
+# ADD fix-permissions /usr/local/bin/fix-permissions
 # Create cavallone user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN groupadd wheel -g 11 && \
-   echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
-   useradd -m -s /bin/bash -N -u $NB_USER && \
-   echo "cavallone:h6626068" | chpasswd &&\
-   mkdir -p $CONDA_DIR && \
-   chown $NB_USER:$NB_USER $CONDA_DIR && \
-   chmod g+w /etc/passwd && \
-   adduser $NB_USER sudo && \
-   fix-permissions $HOME && \
-   fix-permissions "$(dirname $CONDA_DIR)"
+RUN useradd -m ${NB_USER} && echo "h6626068" | chpasswd && adduser ${NB_USER} sudo
 
 USER $NB_USER
 # Install conda as cavallone and check the md5 sum provided on the download site
@@ -79,9 +70,9 @@ RUN cd /tmp && \
    $CONDA_DIR/bin/conda install --quiet --yes conda && \
    $CONDA_DIR/bin/conda update --all --quiet --yes && \
    conda clean --all && \
-   rm -rf /home/$NB_USER/.cache/yarn && \
-   fix-permissions $CONDA_DIR && \
-   fix-permissions /home/$NB_USER
+   rm -rf /home/$NB_USER/.cache/yarn
+   # fix-permissions $CONDA_DIR && \
+   # fix-permissions /home/$NB_USER
 
 RUN mkdir /home/$NB_USER/.config/ && \
    mkdir /home/$NB_USER/.config/fish/ && \
@@ -90,9 +81,9 @@ RUN mkdir /home/$NB_USER/.config/ && \
 # Install Tini
 RUN conda install --yes 'tini=0.18.0' && \
    conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \
-   conda clean --all && \
-   fix-permissions $CONDA_DIR && \
-   fix-permissions /home/$NB_USER
+   conda clean --all
+   # fix-permissions $CONDA_DIR && \
+   # fix-permissions /home/$NB_USER
 
 # Install Jupyter Notebook, Lab, and Hub
 # Generate a notebook server config
@@ -128,9 +119,9 @@ RUN conda install -c pytorch  --yes\
    npm cache clean --force && \
    jupyter notebook --generate-config && \
    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-   rm -rf /home/$NB_USER/.cache/yarn && \
-   fix-permissions $CONDA_DIR && \
-   fix-permissions /home/$NB_USER
+   rm -rf /home/$NB_USER/.cache/yarn
+   # fix-permissions $CONDA_DIR && \
+   # fix-permissions /home/$NB_USER
 
 USER root
 
@@ -151,8 +142,8 @@ COPY start-notebook.sh /usr/local/bin/
 COPY start-singleuser.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /etc/jupyter/
 COPY overrides.json ${CONDA_DIR}/share/jupyter/lab/settings
-RUN fix-permissions /etc/jupyter/
-RUN fix-permissions /home
+# RUN fix-permissions /etc/jupyter/
+# RUN fix-permissions /home
 
 # Switch back to cavallone to avoid accidental container runs as root
 USER $NB_USER
