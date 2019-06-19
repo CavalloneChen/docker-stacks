@@ -6,8 +6,6 @@ FROM $BASE_CONTAINER
 
 LABEL maintainer="Cavallone"
 ARG NB_USER="cavallone"
-ARG NB_UID="1012"
-ARG NB_GID="100"
 
 USER root
 
@@ -48,8 +46,6 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 ENV CONDA_DIR=/opt/conda \
    SHELL=/bin/bash \
    NB_USER=$NB_USER \
-   NB_UID=$NB_UID \
-   NB_GID=$NB_GID \
    LC_ALL=en_US.UTF-8 \
    LANG=en_US.UTF-8 \
    LANGUAGE=en_US.UTF-8
@@ -61,16 +57,16 @@ ADD fix-permissions /usr/local/bin/fix-permissions
 # and make sure these dirs are writable by the `users` group.
 RUN groupadd wheel -g 11 && \
    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
-   useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+   useradd -m -s /bin/bash -N -u $NB_USER && \
    echo "cavallone:h6626068" | chpasswd &&\
    mkdir -p $CONDA_DIR && \
-   chown $NB_USER:$NB_GID $CONDA_DIR && \
+   chown $NB_USER:$NB_USER $CONDA_DIR && \
    chmod g+w /etc/passwd && \
    adduser $NB_USER sudo && \
    fix-permissions $HOME && \
    fix-permissions "$(dirname $CONDA_DIR)"
 
-USER $NB_UID
+USER $NB_USER
 # Install conda as cavallone and check the md5 sum provided on the download site
 ENV MINICONDA_VERSION latest
 RUN cd /tmp && \
@@ -159,4 +155,4 @@ RUN fix-permissions /etc/jupyter/
 RUN fix-permissions /home
 
 # Switch back to cavallone to avoid accidental container runs as root
-USER $NB_UID
+USER $NB_USER
