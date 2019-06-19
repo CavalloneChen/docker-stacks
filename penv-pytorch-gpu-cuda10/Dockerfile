@@ -9,6 +9,8 @@ ARG NB_USER="cavallone"
 
 USER root
 
+RUN useradd -m ${NB_USER} && echo "h6626068" | chpasswd && adduser ${NB_USER} sudo
+
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 # ENV DEBIAN_FRONTEND noninteractive
@@ -55,7 +57,6 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
 # ADD fix-permissions /usr/local/bin/fix-permissions
 # Create cavallone user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN useradd -m ${NB_USER} && echo "h6626068" | chpasswd && adduser ${NB_USER} sudo
 
 USER $NB_USER
 # Install conda as cavallone and check the md5 sum provided on the download site
