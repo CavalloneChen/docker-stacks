@@ -45,7 +45,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
    locale-gen
 
 # Configure environment
-ENV CONDA_DIR=/opt/conda \
+ENV CONDA_DIR=/home/${NB_USER}/conda \
    SHELL=/bin/bash \
    NB_USER=$NB_USER \
    LC_ALL=en_US.UTF-8 \
