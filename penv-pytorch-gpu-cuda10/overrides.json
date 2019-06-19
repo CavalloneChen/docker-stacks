@@ -12,8 +12,6 @@
 
     "@jupyterlab/notebook-extension:tracker":{
         "codeCellConfig": {
-            "fontFamily": "Monaco",
-            "fontSize": 11,
             "lineWrap": "wordWrapColumn",
             "wordWrapColumn": 120,
             "lineNumbers": true
