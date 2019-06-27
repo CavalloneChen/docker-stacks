@@ -1,0 +1,11 @@
+version: 2.3
+services:
+  v2ray:
+    build:
+      context: ../v2ray/
+    image: v2ray:latest
+    container_name: v2ray
+    volumes:
+      - ../v2ray/:/etc/v2ray
+    ports:
+      - "10086:10086"
