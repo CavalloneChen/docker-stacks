@@ -23,3 +23,11 @@ services:
       - "10000:22" # ssh
       - "10001:8888" # jupyterlab
       - "10002:6006" # tensorboard
+  
+  v2ray:
+    image: v2ray/official
+    container_name: v2ray
+    volumes:
+      - ./v2ray/:/etc/v2ray
+    ports:
+      - "1080:1080"
