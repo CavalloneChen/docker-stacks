@@ -3,7 +3,7 @@
       "port": 10086,
       "protocol": "vmess",
       "settings": {
-        "clients": [{ "id": "123chenmaiyue" }]
+        "clients": [{ "id": "0907bded-2aa6-48e8-91ac-5b803ed69e48" }]
       }
     }],
     "outbounds": [{
