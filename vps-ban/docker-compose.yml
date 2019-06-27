@@ -1,9 +1,7 @@
 version: 2.3
 services:
   v2ray:
-    build:
-      context: ../v2ray/
-    image: v2ray:latest
+    image: v2ray/official
     container_name: v2ray
     volumes:
       - ../v2ray/:/etc/v2ray
