@@ -15,7 +15,7 @@ services:
     db:
         image: postgres:latest
         environment:
-            - POSTGRES_USER=miniflux
+            - POSTGRES_USER=cavallone
             - POSTGRES_PASSWORD=h6626068
         volumes:
             - miniflux-db:/var/lib/postgresql/data
