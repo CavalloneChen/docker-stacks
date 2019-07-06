@@ -3,7 +3,7 @@ services:
     miniflux:
         image: miniflux/miniflux:latest
         ports:
-            - "8100:8080"
+            - "80:8080"
         depends_on:
             - db
         environment:
