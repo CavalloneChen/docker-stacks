@@ -7,7 +7,7 @@ services:
         depends_on:
             - db
         environment:
-            - DATABASE_URL=postgres://cavallone:h6626068@db/miniflux?sslmode=disable
+            - DATABASE_URL=postgres://miniflux:h6626068@db/miniflux?sslmode=disable
             - RUN_MIGRATIONS=1
             - CREATE_ADMIN=1
             - ADMIN_USERNAME=cavallone
@@ -15,7 +15,7 @@ services:
     db:
         image: postgres:latest
         environment:
-            - POSTGRES_USER=cavallone
+            - POSTGRES_USER=miniflux
             - POSTGRES_PASSWORD=h6626068
         volumes:
             - miniflux-db:/var/lib/postgresql/data
