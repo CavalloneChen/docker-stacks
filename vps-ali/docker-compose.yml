@@ -2,6 +2,7 @@ version: '3'
 services:
     miniflux:
         image: miniflux/miniflux:latest
+        restart: unless-stopped
         ports:
             - "8100:8080"
         depends_on:
@@ -12,6 +13,15 @@ services:
             - CREATE_ADMIN=1
             - ADMIN_USERNAME=cavallone
             - ADMIN_PASSWORD=h6626068
+    freshrss:
+        image: freshrss/freshrss:latest
+        restart: unless-stopped
+        ports: 
+            - "8101:80"
+        depends_on:
+            - db
+        environment:
+            - CRON_MIN=*/20
     db:
         image: postgres:latest
         environment:
