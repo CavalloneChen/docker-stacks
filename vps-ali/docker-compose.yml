@@ -20,17 +20,5 @@ services:
             - POSTGRES_PASSWORD=h6626068
         volumes:
             - miniflux-db:/var/lib/postgresql/data
-    freshrss:
-        image: linuxserver/freshrss
-        container_name: freshrss
-        environment:
-            - PUID=1001
-            - PGID=1001
-        volumes:
-            - freshrss:/config
-        ports:
-            - 8101:80
-        restart: unless-stopped
 volumes:
     miniflux-db:
-    freshrss:
