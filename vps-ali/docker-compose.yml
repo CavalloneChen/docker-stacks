@@ -8,7 +8,7 @@ services:
         depends_on:
             - miniflux-db
         environment:
-            - DATABASE_URL=postgres://miniflux:h6626068@db/miniflux?sslmode=disable
+            - DATABASE_URL=postgres://miniflux:h6626068@miniflux-db/miniflux?sslmode=disable
             - RUN_MIGRATIONS=1
             - CREATE_ADMIN=1
             - ADMIN_USERNAME=cavallone
