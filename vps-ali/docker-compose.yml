@@ -6,7 +6,7 @@ services:
         ports:
             - "8100:8080"
         depends_on:
-            - miniflux-db
+            - _miniflux-db
         environment:
             - DATABASE_URL=postgres://miniflux:h6626068@db/miniflux?sslmode=disable
             - RUN_MIGRATIONS=1
@@ -56,7 +56,7 @@ services:
         - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
         - SEAFILE_SERVER_HOSTNAME=docs.seafile.com # Specifies your host name if https is enabled.
         depends_on:
-        - seafile-db
+        - _seafile-db
         - memcached
         networks:
         - seafile-net
