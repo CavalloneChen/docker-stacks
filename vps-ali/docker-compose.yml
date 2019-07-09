@@ -6,19 +6,62 @@ services:
         ports:
             - "8100:8080"
         depends_on:
-            - db
+            - miniflux-db
         environment:
             - DATABASE_URL=postgres://miniflux:h6626068@db/miniflux?sslmode=disable
             - RUN_MIGRATIONS=1
             - CREATE_ADMIN=1
             - ADMIN_USERNAME=cavallone
             - ADMIN_PASSWORD=h6626068
-    db:
+    miniflux-db:
         image: postgres:latest
         environment:
             - POSTGRES_USER=miniflux
             - POSTGRES_PASSWORD=h6626068
         volumes:
             - miniflux-db:/var/lib/postgresql/data
+    seafile-db:
+        image: mariadb:10.1
+        container_name: seafile-mysql
+        environment:
+        - MYSQL_ROOT_PASSWORD=h6626068  # Requested, set the root's password of MySQL service.
+        - MYSQL_LOG_CONSOLE=true
+        volumes:
+        - /opt/seafile-mysql/db:/var/lib/mysql  # Requested, specifies the path to MySQL data persistent store.
+        networks:
+        - seafile-net
+
+  memcached:
+    image: memcached:1.5.6
+    container_name: seafile-memcached
+    entrypoint: memcached -m 256
+    networks:
+      - seafile-net
+          
+  seafile:
+    image: seafileltd/seafile-mc:latest
+    container_name: seafile
+    ports:
+      - "8102:80"
+#     - "443:443"  # If https is enabled, cancel the comment.
+    volumes:
+      - /opt/seafile-data:/shared   # Requested, specifies the path to Seafile data persistent store.
+    environment:
+      - DB_HOST=db
+      - DB_ROOT_PASSWD=db_dev  # Requested, the value shuold be root's password of MySQL service.
+      - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      - SEAFILE_ADMIN_EMAIL=chenmaistc@hotmail.com # Specifies Seafile admin user, default is 'me@example.com'.
+      - SEAFILE_ADMIN_PASSWORD=h6626068    # Specifies Seafile admin password, default is 'asecret'.
+      - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
+      - SEAFILE_SERVER_HOSTNAME=docs.seafile.com # Specifies your host name if https is enabled.
+    depends_on:
+      - seafile-db
+      - memcached
+    networks:
+      - seafile-net
+
 volumes:
     miniflux-db:
+    
+networks:
+  seafile-net:
