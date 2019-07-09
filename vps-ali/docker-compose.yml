@@ -13,14 +13,15 @@ services:
             - CREATE_ADMIN=1
             - ADMIN_USERNAME=cavallone
             - ADMIN_PASSWORD=h6626068
-    miniflux-db:
+    _miniflux-db:
         image: postgres:latest
         environment:
             - POSTGRES_USER=miniflux
             - POSTGRES_PASSWORD=h6626068
         volumes:
             - miniflux-db:/var/lib/postgresql/data
-    seafile-db:
+
+    _seafile-db:
         image: mariadb:10.1
         container_name: seafile-mysql
         environment:
