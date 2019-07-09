@@ -38,7 +38,7 @@ services:
         networks:
         - seafile-net
           
-  seafile:
+    seafile:
         image: seafileltd/seafile-mc:latest
         container_name: seafile
         ports:
