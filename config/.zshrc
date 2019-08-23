@@ -23,3 +23,27 @@ zstyle :prompt:pure:virtualenv color blue
 zstyle ':prompt:pure:prompt:*' color blue
 
 antigen apply
+
+# aliases
+alias vi="nvim"
+alias ll="ls -la"
+
+# functions
+dsinfo(){
+    local first_arg="$1"
+    echo "Dir total size:"
+    du -sh "$@"
+    echo "\n"
+    echo "Top 10 files/dirs:"
+    du -ah "$@" | sort -hr | head -10
+}
+
+# linux brew
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+
+# anti body
+# source <(antibody init)
+# antibody bundle < ~/.zsh_plugins.txt
