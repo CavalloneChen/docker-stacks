@@ -1,0 +1,92 @@
+{
+    "inbound": {
+        "port": 16823, // docker 内部 v2ray 的端口
+        "protocol": "vmess", // 我这里使用的 vmess 协议，也可以使用其他协议
+        "settings": {
+            "clients": [
+                {
+                    "id": "e6f87fee-056f-49c5-b883-7adb65369fcb", // vmess 协议需要配置的 uid
+                    "alterId": 65
+                }
+            ]
+        }
+    },
+    "outbound": {
+        "mux": {
+            "concurrency": 8,
+            "enabled": true
+        },
+        "protocol": "vmess", // 目标 v2ray 服务器的协议
+        "settings": {
+            "vnext": [
+                {
+                    "users": [
+                        {
+                            "id": "b729c213-ffad-4661-af93-7bdb0c432fdc", // 目标 v2ray 服务器的 vmess 协议需要配置的 uid
+                            "alterId": 64 // 和目标服务器保持一致
+                        }
+                    ],
+                    "address": "198.13.56.171", // 目前 v2ray 服务器的ip 地址或域名
+                    "port": 16824 // 目标 v2ray 服务器的开放的对外端口
+                }
+            ]
+        },
+        "streamSettings": {
+            "network": "tcp", // 记得配置 tcp
+            "security": "none",
+            "tlsSettings": {},
+            "tcpSettings": {},
+            "httpSettings": {},
+            "kcpSettings": {
+                "mtu": 1350,
+                "tti": 50,
+                "uplinkCapacity": 100,
+                "downlinkCapacity": 100,
+                "congestion": false,
+                "readBufferSize": 2,
+                "writeBufferSize": 2,
+                "header": {
+                    "type": "none"
+                }
+            },
+            "wsSettings": {},
+            "quicSettings": {}
+        }
+    },
+    "inboundDetour": [],
+    "outboundDetour": [
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        }
+    ],
+    "routing": {
+        "strategy": "rules",
+        "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "ip": [
+                        "0.0.0.0/8",
+                        "10.0.0.0/8",
+                        "100.64.0.0/10",
+                        "127.0.0.0/8",
+                        "169.254.0.0/16",
+                        "172.16.0.0/12",
+                        "192.0.0.0/24",
+                        "192.0.2.0/24",
+                        "192.168.0.0/16",
+                        "198.18.0.0/15",
+                        "198.51.100.0/24",
+                        "203.0.113.0/24",
+                        "::1/128",
+                        "fc00::/7",
+                        "fe80::/10"
+                    ],
+                    "outboundTag": "blocked"
+                }
+            ]
+        }
+    }
+}
