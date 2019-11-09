@@ -1,0 +1,10 @@
+version: '3'
+services:
+    v2ray:
+        image: v2ray/official
+        ports:
+            - "16824:16823"
+            - "11873:11872"
+        volumes:
+            - ./config.json:/etc/v2ray/config.json
+        restart: always
