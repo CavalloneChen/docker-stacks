@@ -1,0 +1,61 @@
+{  
+    "reverse":{  //这是 B 的反向代理设置，必须有下面的 portals 对象
+      "portals":[  
+        {  
+          "tag":"portal",
+          "domain":"private.horizon.com"        // 必须和上面 A 设定的域名一样
+        }
+      ]
+    },
+    "inbounds":[
+      {  
+        // 接受 C 的inbound
+        "tag":"tunnel", // 标签，路由中用到
+        "port":11872,
+        "protocol":"vmess",
+        "settings":{  
+          "clients":[  
+            {  
+              "id":"a26efdb8-ef34-4278-a4e6-2af32cc010aa",
+              "alterId":64
+            }
+          ]
+        }
+      },
+      // 另一个 inbound，接受 A 主动发起的请求  
+      {  
+        "tag": "interconn",// 标签，路由中用到
+        "port":16823,
+        "protocol":"vmess",
+        "settings":{  
+          "clients":[  
+            {  
+              "id":"b831381d-6324-4d53-ad4f-8cda48b30811",
+              "alterId":64
+            }
+          ]
+        }
+      }
+    ],
+    "routing":{   
+      "rules":[  
+        {  //路由规则，接收 C 的请求后发给 A
+          "type":"field",
+          "inboundTag":[  
+            "external"
+          ],
+          "outboundTag":"portal"
+        },
+        {  //路由规则，让 B 能够识别这是 A 主动发起的反向代理连接
+          "type":"field",
+          "inboundTag":[  
+            "tunnel"
+          ],
+          "domain":[  
+            "full:private.horizon.com"
+          ],
+          "outboundTag":"portal"
+        }
+      ]
+    }
+  }
